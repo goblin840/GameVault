@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GameVault — персональный каталог видеоигр с библиотекой, оценками и статистикой.">
+    <title>GameVault — моя игровая коллекция</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Вся страница состоит из бокового меню и основной области. -->
+    <div class="app-layout" hidden>
+        <!-- БОКОВОЕ МЕНЮ: кнопки переключают разделы сайта. -->
+        <aside class="sidebar">
+            <button id="brandHome" class="brand brand-button" type="button" title="На главную страницу" aria-label="GameVault — на главную">
+                <span class="brand-mark" aria-hidden="true">✦</span>
+                <div>
+                    <span class="brand-name">GAME<span>VAULT</span></span>
+                    <span class="brand-subtitle">ТВОЯ ИГРОВАЯ ВСЕЛЕННАЯ</span>
+                </div>
+            </button>
+
+            <div class="sidebar-label">РАЗДЕЛЫ</div>
+            <nav class="side-nav" aria-label="Основная навигация">
+                <button class="nav-link active" data-page="home" type="button"><span class="nav-icon">⌂</span> Обзор</button>
+                <button class="nav-link" data-page="catalog" type="button"><span class="nav-icon">▦</span> Каталог игр</button>
+                <button class="nav-link" data-page="library" type="button"><span class="nav-icon">▣</span> Моя библиотека <span id="navLibraryCount" class="nav-count">0</span></button>
+                <button class="nav-link" data-page="favorites" type="button"><span class="nav-icon">♡</span> Избранное</button>
+                <button class="nav-link" data-page="stats" type="button"><span class="nav-icon">◫</span> Статистика</button>
+            </nav>
+
+            <div class="sidebar-label side-section-label">УПРАВЛЕНИЕ</div>
+            <nav class="side-nav" aria-label="Управление каталогом">
+                <button class="nav-link" data-page="manage" type="button"><span class="nav-icon">⚙</span> Управление играми</button>
+                <button class="nav-link" data-page="profile" type="button"><span class="nav-icon">♙</span> Мой профиль</button>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-tip">
+                    <span class="tip-symbol">✧</span>
+                    <strong>Твоя коллекция, твои правила</strong>
+                    <p>Сохраняй игры, оценивай и отслеживай прогресс.</p>
+                    <button id="sideAddGame" type="button">+ Добавить игру</button>
+                </div>
+                <span class="sidebar-footer">GAMEVAULT © 2026 · УЧЕБНЫЙ ПРОЕКТ</span>
+            </div>
+        </aside>
+
+        <!-- ОСНОВНОЕ СОДЕРЖИМОЕ -->
+        <div class="main-area">
+            <header class="topbar">
+                <div class="topbar-heading">
+                    <button id="mobileBrandHome" class="mobile-brand" type="button" title="На главную">✦ GAMEVAULT</button>
+                    <span id="currentBreadcrumb" class="breadcrumb">Панель управления <span>/</span> Обзор</span>
+                </div>
+                <div class="topbar-actions">
+                    <label class="search-box" for="globalSearch">
+                        <span aria-hidden="true">⌕</span>
+                        <input id="globalSearch" type="search" placeholder="Найти игру..." autocomplete="off">
+                        <kbd>/</kbd>
+                    </label>
+                    <button id="topAddGame" type="button" class="button button-primary top-add">+ <span>Добавить игру</span></button>
+                    <button id="profileButton" type="button" class="user-avatar" title="Открыть мой профиль" aria-label="Открыть профиль">GV</button>
+                </div>
+            </header>
+
+            <main class="page-content">
+                <!-- СТРАНИЦА 1: ОБЗОР -->
+                <section id="page-home" class="page-section">
+                    <div class="page-intro">
+                        <div>
+                            <div class="eyebrow">ВАШ ЦИФРОВОЙ ИГРОВОЙ МИР</div>
+                            <h1>Добро пожаловать в <span class="accent-text">GameVault.</span></h1>
+                            <p>Коллекционируй впечатления. Не теряй любимые игры.</p>
+                        </div>
+                        <span class="current-label">✺ Персональная библиотека</span>
+                    </div>
+
+                    <div id="featuredHero" class="hero">
+                        <div class="hero-text">
+                            <span class="hero-tag"><span class="tiny-dot"></span> ИГРА В ЦЕНТРЕ ВНИМАНИЯ</span>
+                            <h2>HOLLOW<br>KNIGHT</h2>
+                            <p>Отправься в забытое королевство Холлоунест и открой его тайны. Приключение, которое остаётся с тобой.</p>
+                            <div class="hero-actions">
+                                <button id="featuredDetails" class="button button-white" type="button">Подробнее об игре <span>↗</span></button>
+                                <span class="hero-meta">2017 <span>•</span> Метроидвания</span>
+                            </div>
+                        </div>
+                        <div class="hero-art" aria-hidden="true">
+                            <div class="hero-glow"></div>
+                            <div class="hero-orbit orbit-one"></div>
+                            <div class="hero-orbit orbit-two"></div>
+                            <div class="hero-emblem">♜</div>
+                        </div>
+                        <div class="hero-number" aria-hidden="true">01 / 04</div>
+                    </div>
+
+                    <div id="homeStats" class="stat-grid" aria-label="Сводная статистика"></div>
+
+                    <div class="section-head home-picks-head">
+                        <div>
+                            <span class="eyebrow">ПОДБОРКА ДЛЯ ТЕБЯ</span>
+                            <h2>Открой что-нибудь новое <span class="section-sparkle">✳</span></h2>
+                        </div>
+                        <button class="text-link" data-page="catalog" type="button">Весь каталог <span>→</span></button>
+                    </div>
+                    <div id="featuredGames" class="game-grid featured-grid"></div>
+
+                    <div class="dashboard-bottom">
+                        <div class="panel">
+                            <div class="panel-heading"><h3>Твой прогресс</h3><span class="muted">По библиотеке</span></div>
+                            <div id="homeProgress" class="home-progress"></div>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-heading"><h3>Последние действия</h3><span class="muted">История</span></div>
+                            <div id="homeActivity" class="activity-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- СТРАНИЦА 2: КАТАЛОГ -->
+                <section id="page-catalog" class="page-section" hidden>
+                    <div class="page-intro compact-intro">
+                        <div>
+                            <span class="eyebrow">ИССЛЕДУЙ МИР ИГР</span>
+                            <h1>Каталог <span class="accent-text">видеоигр</span></h1>
+                            <p>Найди следующую игру, которую захочется пройти.</p>
+                        </div>
+                        <div id="catalogTotal" class="headline-count">0 <span>ИГР В КАТАЛОГЕ</span></div>
+                    </div>
+                    <div class="filter-panel">
+                        <div class="filter-title">⌕ &nbsp;Поиск и фильтры <button id="clearFilters" type="button">Сбросить</button></div>
+                        <div class="filter-row">
+                            <label>Жанр
+                                <select id="filterGenre"><option value="all">Все жанры</option></select>
+                            </label>
+                            <label>Платформа
+                                <select id="filterPlatform"><option value="all">Все платформы</option></select>
+                            </label>
+                            <label>Статус
+                                <select id="filterStatus">
+                                    <option value="all">Любой статус</option>
+                                    <option value="none">Не в библиотеке</option>
+                                    <option value="wishlist">Хочу пройти</option>
+                                    <option value="playing">Прохожу</option>
+                                    <option value="completed">Пройдена</option>
+                                    <option value="paused">Отложена</option>
+                                </select>
+                            </label>
+                            <label>Сортировка
+                                <select id="filterSort">
+                                    <option value="title">По названию</option>
+                                    <option value="new">Сначала новые</option>
+                                    <option value="old">Сначала старые</option>
+                                    <option value="rating">По моей оценке</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="results-heading"><h2>Все игры <span id="catalogResults">0</span></h2><span>Нажми на карточку, чтобы узнать больше</span></div>
+                    <div id="catalogGames" class="game-grid"></div>
+                    <div id="catalogEmpty" class="empty-state" hidden><span>⌕</span><h3>Игры не найдены</h3><p>Попробуй изменить запрос или фильтры.</p></div>
+                    <div class="load-more-wrap"><button id="loadMore" type="button" class="button button-outline" hidden>Показать ещё ↓</button></div>
+                </section>
+
+                <!-- СТРАНИЦА 3: ЛИЧНАЯ БИБЛИОТЕКА -->
+                <section id="page-library" class="page-section" hidden>
+                    <div class="page-intro compact-intro">
+                        <div><span class="eyebrow">ЛИЧНАЯ КОЛЛЕКЦИЯ</span><h1>Моя <span class="accent-text">библиотека</span></h1><p>Все игры, которые ты сохранил и планируешь пройти.</p></div>
+                        <div id="libraryTotal" class="headline-count">0 <span>МОИХ ИГР</span></div>
+                    </div>
+                    <div id="libraryTabs" class="pill-tabs">
+                        <button class="pill active" data-status="all" type="button">Все</button>
+                        <button class="pill" data-status="wishlist" type="button">Хочу пройти</button>
+                        <button class="pill" data-status="playing" type="button">Прохожу</button>
+                        <button class="pill" data-status="completed" type="button">Пройдены</button>
+                        <button class="pill" data-status="paused" type="button">Отложены</button>
+                    </div>
+                    <div id="libraryGames" class="game-grid"></div>
+                    <div id="libraryEmpty" class="empty-state" hidden><span>▣</span><h3>Здесь пока пусто</h3><p>Открой каталог и добавь игру в свою коллекцию.</p><button class="button button-primary" data-page="catalog" type="button">Перейти в каталог →</button></div>
+                </section>
+
+                <!-- СТРАНИЦА 4: ИЗБРАННОЕ -->
+                <section id="page-favorites" class="page-section" hidden>
+                    <div class="page-intro compact-intro"><div><span class="eyebrow">ТО, ЧТО НРАВИТСЯ</span><h1>Моё <span class="accent-text">избранное</span></h1><p>Игры, которые хочется сохранить под рукой.</p></div><div id="favoritesTotal" class="headline-count">0 <span>ИЗБРАННЫХ</span></div></div>
+                    <div id="favoriteGames" class="game-grid"></div>
+                    <div id="favoritesEmpty" class="empty-state" hidden><span>♡</span><h3>Пока нет избранных игр</h3><p>Нажми на сердечко на карточке любой игры.</p><button class="button button-primary" data-page="catalog" type="button">Открыть каталог →</button></div>
+                </section>
+
+                <!-- СТРАНИЦА 5: СТАТИСТИКА -->
+                <section id="page-stats" class="page-section" hidden>
+                    <div class="page-intro compact-intro"><div><span class="eyebrow">ТВОЙ ИГРОВОЙ ПУТЬ</span><h1>Статистика <span class="accent-text">коллекции</span></h1><p>Посмотри, как растёт твоя библиотека.</p></div></div>
+                    <div id="statsSummary" class="stat-grid"></div>
+                    <div class="analytics-grid">
+                        <div class="panel"><div class="panel-heading"><h3>Статусы прохождения</h3><span class="muted">Мои игры</span></div><div id="statusChart" class="bar-chart"></div></div>
+                        <div class="panel"><div class="panel-heading"><h3>Любимые жанры</h3><span class="muted">По библиотеке</span></div><div id="genreChart" class="bar-chart"></div></div>
+                    </div>
+                    <div class="panel stats-activity-panel"><div class="panel-heading"><h3>История изменений</h3><span class="muted">Последние 12 действий</span></div><div id="allActivity" class="activity-list"></div></div>
+                </section>
+
+                <!-- СТРАНИЦА 6: УПРАВЛЕНИЕ -->
+                <section id="page-manage" class="page-section" hidden>
+                    <div class="page-intro compact-intro"><div><span class="eyebrow">СОЗДАВАЙ СВОЙ КАТАЛОГ</span><h1>Управление <span class="accent-text">играми</span></h1><p>Добавляй игры, изменяй данные и сохраняй резервные копии.</p></div><button id="manageAddGame" class="button button-primary" type="button">+ Новая игра</button></div>
+                    <div class="management-grid">
+                        <div class="panel">
+                            <div class="panel-heading"><h3>Данные каталога</h3><span class="muted">Хранятся в браузере</span></div>
+                            <p class="panel-description">Ты можешь изменить любую игру или создать свою. Данные сохраняются только на этом устройстве и в этом браузере.</p>
+                            <div class="data-actions">
+                                <button id="exportData" class="button button-outline" type="button">↓ Экспорт JSON</button>
+                                <button id="importData" class="button button-outline" type="button">↑ Импорт JSON</button>
+                                <input id="importFile" type="file" accept=".json,application/json" hidden>
+                            </div>
+                        </div>
+                        <div class="panel danger-panel">
+                            <div class="panel-heading"><h3>Вернуть исходные данные</h3><span class="muted">Сброс</span></div>
+                            <p class="panel-description">Удалятся добавленные игры, статусы, оценки, заметки и история. Сначала можно сделать экспорт.</p>
+                            <button id="resetData" type="button" class="button button-danger">Сбросить всё</button>
+                        </div>
+                    </div>
+                    <div class="panel manage-list-panel">
+                        <div class="panel-heading"><h3>Все игры <span id="manageCount" class="small-count">0</span></h3><span class="muted">Редактирование каталога</span></div>
+                        <div id="manageList" class="manage-list"></div>
+                    </div>
+                </section>
+
+                <!-- СТРАНИЦА 7: ЛИЧНЫЙ ПРОФИЛЬ. Данные сохраняются локально. -->
+                <section id="page-profile" class="page-section" hidden>
+                    <div class="page-intro compact-intro">
+                        <div>
+                            <span class="eyebrow">ЛИЧНЫЙ КАБИНЕТ</span>
+                            <h1>Мой <span class="accent-text">профиль</span></h1>
+                            <p>Измени имя и описание профиля или выйди из аккаунта.</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-header panel">
+                        <div id="profileBigAvatar" class="profile-big-avatar">GV</div>
+                        <div class="profile-header-text">
+                            <span class="eyebrow">УЧАСТНИК GAMEVAULT</span>
+                            <h2 id="profileDisplayName">Игрок</h2>
+                            <p id="profileUsername">@username</p>
+                            <p id="profileJoined" class="profile-since">Дата регистрации</p>
+                        </div>
+                        <button id="profileLogout" class="button button-outline" type="button">Выйти из профиля</button>
+                    </div>
+
+                    <div class="profile-stats" aria-label="Статистика профиля">
+                        <div class="panel profile-stat"><span>В моей библиотеке</span><strong id="profileGamesCount">0</strong></div>
+                        <div class="panel profile-stat"><span>Пройдено</span><strong id="profileCompletedCount">0</strong></div>
+                        <div class="panel profile-stat"><span>В избранном</span><strong id="profileFavoriteCount">0</strong></div>
+                    </div>
+
+                    <div class="panel profile-editor">
+                        <div class="panel-heading"><h3>Редактирование профиля</h3><span class="muted">Сохраняется в браузере</span></div>
+                        <form id="profileForm">
+                            <label>Отображаемое имя
+                                <input id="profileNameInput" type="text" minlength="2" maxlength="30" required placeholder="Как тебя называть">
+                            </label>
+                            <label>О себе
+                                <textarea id="profileBioInput" rows="4" maxlength="250" placeholder="Например, люблю RPG и атмосферные приключения"></textarea>
+                            </label>
+                            <label>Цвет аватара
+                                <select id="profileAvatarColor">
+                                    <option value="#8064d8">Фиолетовый</option>
+                                    <option value="#3577a4">Синий</option>
+                                    <option value="#3e9378">Зелёный</option>
+                                    <option value="#c87955">Оранжевый</option>
+                                    <option value="#bb6799">Розовый</option>
+                                </select>
+                            </label>
+                            <button class="button button-primary" type="submit">Сохранить профиль</button>
+                        </form>
+                        <p class="profile-note">Данные каждого учебного аккаунта хранятся только в этом браузере. Это не настоящая защищённая авторизация.</p>
+                    </div>
+                </section>
+            </main>
+            <footer class="main-footer"><span>✦ GAMEVAULT</span><span>Курсовой проект · HTML / CSS / JavaScript</span><span>Сделано для изучения веб-разработки</span></footer>
+        </div>
+    </div>
+
+
+    <!-- ВХОД И РЕГИСТРАЦИЯ: для учебного сайта без сервера. -->
+    <section id="authScreen" class="auth-screen" aria-label="Вход в GameVault">
+        <div class="auth-layout">
+            <div class="auth-promo">
+                <div class="auth-promo-logo">✦ <span>GAME<strong>VAULT</strong></span></div>
+                <span class="eyebrow">ТВОЯ ЛИЧНАЯ ИГРОВАЯ ВСЕЛЕННАЯ</span>
+                <h1>Все твои игры.<br><span>В одном месте.</span></h1>
+                <p>Создай свой профиль, собирай библиотеку, следи за прохождением и сохраняй впечатления от игр.</p>
+                <div class="auth-features">
+                    <div><span>▦</span> Более 25 игр в каталоге</div>
+                    <div><span>♡</span> Избранное и личные оценки</div>
+                    <div><span>◫</span> Твоя статистика и прогресс</div>
+                </div>
+            </div>
+
+            <div class="auth-card">
+                <div class="auth-badge">✦ GAMEVAULT</div>
+                <h2 id="authHeading">С возвращением!</h2>
+                <p id="authDescription" class="auth-description">Войди, чтобы продолжить собирать свою коллекцию.</p>
+                <div class="auth-tabs" role="group" aria-label="Режим авторизации">
+                    <button id="showLogin" type="button" class="auth-tab active" aria-pressed="true">Войти</button>
+                    <button id="showRegister" type="button" class="auth-tab" aria-pressed="false">Создать профиль</button>
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                    <label>Логин
+                        <input id="loginUsername" type="text" autocomplete="username" maxlength="20" required placeholder="Твой логин">
+                    </label>
+                    <label>Пароль
+                        <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Введи пароль">
+                    </label>
+                    <button class="button button-primary auth-submit" type="submit">Войти в GameVault →</button>
+                </form>
+
+                <form id="registerForm" class="auth-form" hidden>
+                    <label>Логин (от 3 до 20 символов)
+                        <input id="registerUsername" type="text" autocomplete="username" minlength="3" maxlength="20" required placeholder="Например, player_01">
+                    </label>
+                    <label>Имя в профиле
+                        <input id="registerName" type="text" minlength="2" maxlength="30" required placeholder="Как тебя называть">
+                    </label>
+                    <label>Пароль (минимум 8 символов)
+                        <input id="registerPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="Придумай пароль">
+                    </label>
+                    <label>Повтори пароль
+                        <input id="registerRepeat" type="password" autocomplete="new-password" minlength="8" required placeholder="Повтори пароль">
+                    </label>
+                    <button class="button button-primary auth-submit" type="submit">Создать профиль →</button>
+                </form>
+                <p id="authMessage" class="auth-message" role="status" aria-live="polite"></p>
+                <p class="auth-warning">Учебная версия: аккаунт существует только в этом браузере. Не используй пароль от других сайтов.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- МОДАЛЬНОЕ ОКНО: информация об игре и заметка пользователя. -->
+    <dialog id="detailsDialog" class="modal details-modal" aria-label="Информация об игре">
+        <button id="closeDetails" type="button" class="modal-close" aria-label="Закрыть окно">×</button>
+        <div id="detailsContent"></div>
+    </dialog>
+
+    <!-- МОДАЛЬНОЕ ОКНО: добавление и редактирование игры. -->
+    <dialog id="gameDialog" class="modal form-modal" aria-labelledby="formHeading">
+        <div class="modal-header"><div><span class="eyebrow">КАТАЛОГ ИГР</span><h2 id="formHeading">Добавить игру</h2></div><button id="closeGameForm" class="modal-close static-close" type="button" aria-label="Закрыть окно">×</button></div>
+        <form id="gameForm">
+            <input id="editGameId" type="hidden">
+            <label>Название игры <span class="required">*</span><input id="gameTitle" type="text" maxlength="80" placeholder="Например, Journey" required></label>
+            <div class="form-two-cols">
+                <label>Жанр <span class="required">*</span>
+                    <select id="gameGenre" required>
+                        <option value="Экшен">Экшен</option><option value="Приключение">Приключение</option><option value="Ролевая игра">Ролевая игра</option><option value="Метроидвания">Метроидвания</option><option value="Шутер">Шутер</option><option value="Рогалик">Рогалик</option><option value="Платформер">Платформер</option><option value="Стратегия">Стратегия</option><option value="Симулятор">Симулятор</option><option value="Головоломка">Головоломка</option><option value="Выживание">Выживание</option><option value="Другое">Другое</option>
+                    </select>
+                </label>
+                <label>Год выхода <span class="required">*</span><input id="gameYear" type="number" min="1970" max="2035" required></label>
+            </div>
+            <div class="form-two-cols">
+                <label>Разработчик <span class="required">*</span><input id="gameDeveloper" type="text" maxlength="80" placeholder="Название студии" required></label>
+                <label>Платформы (через запятую)<input id="gamePlatforms" type="text" maxlength="100" placeholder="PC, PlayStation, Xbox"></label>
+            </div>
+            <label>Описание <span class="required">*</span><textarea id="gameDescription" rows="4" maxlength="500" placeholder="Коротко расскажи об игре" required></textarea></label>
+            <div class="form-two-cols">
+                <label>ID игры в Steam (необязательно)<input id="gameSteamId" type="number" min="1" max="99999999" placeholder="Например, 620"></label>
+                <label>Цвет карточки
+                    <select id="gameColor"><option value="#5651a8">Фиолетовый</option><option value="#285a78">Синий</option><option value="#4d7c63">Зелёный</option><option value="#af634c">Оранжевый</option><option value="#8a416f">Розовый</option><option value="#78633f">Золотой</option></select>
+                </label>
+            </div>
+            <p class="form-hint">Если указать Steam ID, сайт попробует загрузить обложку из Steam. Без него будет цветная карточка.</p>
+            <div class="form-actions"><button id="cancelGameForm" class="button button-outline" type="button">Отмена</button><button class="button button-primary" type="submit">Сохранить игру</button></div>
+        </form>
+    </dialog>
+
+    <!-- ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ (например, "Игра добавлена"). -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- Сначала подключаем данные игр, затем JavaScript с функциями. -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
